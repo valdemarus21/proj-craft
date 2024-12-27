@@ -1,18 +1,60 @@
-// VaultPage.jsx
-import React from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 
 const VaultPage = () => {
+	const [files, setFiles] = useState([]);
+
+	// Функция для получения файлов с сервера
+	const fetchFiles = async () => {
+		try {
+			const response = await fetch('https://thankful-glory-mum.glitch.me/files');
+			const data = await response.json();
+			setFiles(data.files); // Обновляем состояние с полученными файлами
+		} catch (error) {
+			console.error('Error fetching files:', error);
+		}
+	};
+
+	// useEffect для выполнения запроса каждые 10 секунд
+	useEffect(() => {
+		// Выполняем запрос сразу после загрузки компонента
+		fetchFiles();
+
+		// Устанавливаем интервал в 10 секунд для обновления данных
+		const interval = setInterval(() => {
+			fetchFiles();
+		}, 10000);
+
+		// Очищаем интервал при размонтировании компонента
+		return () => clearInterval(interval);
+	}, []);
+
+	// Функция для скачивания и открытия файла
+	const handleDownloadAndOpen = (fileName) => {
+		const fileUrl = `https://thankful-glory-mum.glitch.me/files/${fileName}`;
+
+		// Скачиваем файл
+		const link = document.createElement('a');
+		link.href = fileUrl;
+		link.download = fileName;
+		link.click();
+
+		// Открываем файл в новой вкладке
+		window.open(fileUrl, '_blank');
+	};
+
 	return (
 		<main className="page">
 			<div className="wrapper">
 				<div className="content">
 					<h1 className="content__title">ProjCraft</h1>
 					<p className="content__subtitle">
-						External vault url: <span className="content__subtitle-value">test.com</span>
+						External vault url:{' '}
+						<span className="content__subtitle-value">https://thankful-glory-mum.glitch.me</span>
 					</p>
-					<div className="content__doc">
-						<ul className="content__doc-list">
-							<li className="content__doc-list-item">
+					<ul className="content__doc">
+						{files.map((file, index) => (
+							<li key={index} className="content__doc-list-item">
 								<span className="content__doc-list-item--image">
 									<svg
 										width="50"
@@ -39,12 +81,21 @@ const VaultPage = () => {
 										/>
 									</svg>
 								</span>
-								<span className="content__doc-list-item--name"> document.txt </span>
-								<span className="content__doc-list-item--size"> 312kb </span>
-								<button className="content__doc-list-item--btn">Download & open</button>
+								<span className="content__doc-list-item--name">{file.fileName}</span>
+								<span className="content__doc-list-item--size">{file.size} kb</span>
+								<button
+									className="content__doc-list-item--btn"
+									onClick={() => handleDownloadAndOpen(file.fileName)}>
+									Download
+								</button>
+                                <button
+                                    className="content__doc-list-item--btn"
+                                    onClick={() => handleDownloadAndOpen(file.fileName)}>
+                                    View
+                                </button>
 							</li>
-						</ul>
-					</div>
+						))}
+					</ul>
 				</div>
 			</div>
 		</main>

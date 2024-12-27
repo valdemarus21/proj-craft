@@ -88,6 +88,7 @@ ol {
 	z-index: 10;
 	position: absolute;
 	top: 0px;
+	left: 0;
 	z-index: 10;
 	display: none;
 	.modal-popup__inner {
@@ -204,31 +205,37 @@ main {
 			.content__doc {
 				width: 100%;
 				padding-top: 50px;
+				.content__doc-list-item {
+					display: flex;
+					gap: 30px;
+					border-bottom: 1px dashed #000;
+					justify-content: space-between;
+					align-items: center;
+					font-size: 16px;
+					padding-top: 5px;
+					padding-bottom: 5px;
+					display: grid;
+					grid-template-columns: 0.4fr 1fr 0.6fr repeat(2, 1fr);
+					grid-template-rows: 1fr;
+					grid-column-gap: 0px;
+					grid-row-gap: 0px;
+				}
 				.content__doc-list {
 					display: flex;
 					flex-direction: column;
 					border-top: 1px dashed #000;
-					.content__doc-list-item {
-						display: flex;
-						gap: 30px;
-						border-bottom: 1px dashed #000;
-						justify-content: space-between;
-						align-items: center;
-						font-size: 16px;
-						padding-top: 5px;
-						padding-bottom: 5px;
-					}
-					.content__doc-list-item--btn {
-						color: #ffffff;
-						border-radius: 6px;
-						background-color: #3758f9;
-						padding-top: 10px;
-						padding-bottom: 10px;
-						padding-left: 20px;
-						padding-right: 20px;
-						cursor: pointer;
-						border: none;
-					}
+				}
+				.content__doc-list-item--btn {
+					color: #ffffff;
+					border-radius: 6px;
+					background-color: #3758f9;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					padding-left: 20px;
+					padding-right: 20px;
+					cursor: pointer;
+					border: none;
+					margin-left: 5px;
 				}
 			}
 		}
