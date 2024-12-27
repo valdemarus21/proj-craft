@@ -1,0 +1,3 @@
+{
+	"diagram": "graph TD\n    A[Start] --> B[Process]\n    B --> C[End]"
+}
